@@ -22,7 +22,7 @@ import UserBadgeItem from "./UserBadgeItem";
 import axios from "axios";
 import UserListItem from "./UserListItem";
 
-const UpdateGrouoChatModel = ({ fetchAgain, setFetchAgain }) => {
+const UpdatedGroupChatModel = ({ fetchAgain, setFetchAgain,fetchMessages }) => {
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -308,4 +308,4 @@ const UpdateGrouoChatModel = ({ fetchAgain, setFetchAgain }) => {
   );
 };
 
-export default UpdateGrouoChatModel;
+export default UpdatedGroupChatModel;

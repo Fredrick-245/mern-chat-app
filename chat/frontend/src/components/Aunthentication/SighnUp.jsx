@@ -92,7 +92,7 @@ export default function SighnUp() {
                 "Content-type":"application/json"
             }
         }
-    const {data} = await axios.post("/api/user",{name,password,email,pic})
+    const {data} = await axios.post("/api/user",{name,password,email,pic},config)
     toast({
         title: 'Login succesful',
         // description: "We've created your account for you.",

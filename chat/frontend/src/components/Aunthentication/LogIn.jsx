@@ -20,7 +20,7 @@ export default function LogIn() {
   const toast = useToast();
   const history = useHistory()
   const submitHandler = async () => {
-    history.push("/chats")
+    // history.push("/chats")
     if (!password || !email) {
       toast({
         title: "Please fill all  the fields",
@@ -39,7 +39,7 @@ export default function LogIn() {
         },
       };
       const { data } = await axios.post(
-        "/api/user/lgin",
+        "/api/user/login",
         { password, email },
         config
       );
@@ -53,7 +53,7 @@ export default function LogIn() {
       });
       localStorage.setItem("UserInfo", JSON.stringify(data));
       setIsLoading(false);
-      history.push("/chats");
+      // history.push("/chats");
     } catch (err) {
       toast({
         title: "Error",

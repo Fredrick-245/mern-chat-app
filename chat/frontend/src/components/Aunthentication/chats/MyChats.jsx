@@ -80,7 +80,7 @@ export default function MyChats({fetchAgain}) {
         borderRadius="lg"
         overflowY="hidden"
       >
-        {chats ? (
+        {/* {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box
@@ -111,7 +111,7 @@ export default function MyChats({fetchAgain}) {
           </Stack>
         ) : (
           <ChatLoading />
-        )}
+        )} */}
       </Box>
     </Box>
   )
