@@ -32,6 +32,7 @@ exports.sendMessage = asyncHandler(async (req, res) => {
   }
 });
 exports.allMessages = asyncHandler(async (req, res) => {
+  console.log(req.params);
    try{
     const  messages = await Message.find({chat:req.params.chatId}).populate("sender","name pic email").populate("chat");
     res.json(messages)

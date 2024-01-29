@@ -66,6 +66,7 @@ exports.fetchChats = asyncHandler(async (req, res) => {
 
 exports.createGroupChat = asyncHandler(async (req, res) => {
   const userId = { ...req.user._conditions }["_id"];
+  console.log("Hey")
   if (!req.body.users || !req.body.name) {
     return res.status(400).json({
       status: "error",
@@ -91,6 +92,7 @@ exports.createGroupChat = asyncHandler(async (req, res) => {
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
+    console.log(fullGroupChat)
     res.status(200).json(fullGroupChat);
   } catch (err) {
     throw new Error(err);

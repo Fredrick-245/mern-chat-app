@@ -41,7 +41,7 @@ const GroupChatModel = ({ children }) => {
       };
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       setLoading(false);
-      setSearchResult(data);
+      setSearchResult(data.users);
     } catch (err) {
       toast({
         title: "Error occured!",
@@ -64,7 +64,8 @@ const GroupChatModel = ({ children }) => {
       });
       return;
     }
-    setSelectedUsers(...selectedUsers, userToBeAdded);
+    setSelectedUsers([...selectedUsers,userToBeAdded]);
+    console.log(selectedUsers)
   }
   async function handleSubmit() {
     if (!groupChatName || !selectedUsers) {
@@ -84,14 +85,14 @@ const GroupChatModel = ({ children }) => {
         },
       };
       const { data } = await axios.post(
-        "/api/chats/group",
+        "/api/chat/group",
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
         },
         config
       );
-      setChats([data, ...chats]);
+      setChats([...data, ...chats]);
       onClose();
       toast({
         title: "New Group Chat Created!",

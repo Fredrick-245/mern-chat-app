@@ -1,17 +1,21 @@
-import React,{useEffect, useState} from 'react'
-import { ChatState } from '../../../context/ChatProvider'
-import {Box} from "@chakra-ui/react"
-import {useToast} from "@chakra-ui/react"
-import axios from "axios"
-import ChatLoading from '../../utils/ChatLoading'
-import {Button,Stack} from "@chakra-ui/react"
-import {AddIcon} from "@chakra-ui/icons"
-import { getSender } from '../../../config/ChatLogics'
-import GroupChatModel from '../../utils/GroupChatModel'
-export default function MyChats({fetchAgain}) {
-  const [loggedUser,setLoggedUser]=useState()
-  const {selectedChat,setSelectedChat,user,chats,setChats} = ChatState()
+import React, { useEffect, useState } from "react";
+import { ChatState } from "../../../context/ChatProvider";
+import { Box, Text } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import axios from "axios";
+import ChatLoading from "../../utils/ChatLoading";
+import { Button, Stack } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { getSender } from "../../../config/ChatLogics";
+import GroupChatModel from "../../utils/GroupChatModel";
+import {useSelector,useDispatch} from "react-redux"
+export default function MyChats({ fetchAgain }) {
+  const [loggedUser, setLoggedUser] = useState();
+  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const toast = useToast();
+  const reduxSelectedChat = useSelector(state=>state.chat.chats)
+  const dispatch = useDispatch()
+  
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -22,7 +26,7 @@ export default function MyChats({fetchAgain}) {
       };
 
       const { data } = await axios.get("/api/chat", config);
-      setChats(data);
+      setChats(data.allChats);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -34,22 +38,22 @@ export default function MyChats({fetchAgain}) {
       });
     }
   };
-  useEffect(()=>{
-    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")))
-    fetchChats()
-  },[fetchAgain])
-  return ( 
+  useEffect(() => {
+    setLoggedUser(JSON.parse(localStorage.getItem("UserInfo")));
+    fetchChats();
+  }, [fetchAgain]);
+  return (
     <Box
-    d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
-    flexDir="column"
-    alignItems="center"
-    p={3}
-    bg="white"
-    w={{ base: "100%", md: "31%" }}
-    borderRadius="lg"
-    borderWidth="1px"
->
-<Box
+      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      flexDir="column"
+      alignItems="center"
+      p={3}
+      bg="white"
+      w={{ base: "100%", md: "31%" }}
+      borderRadius="lg"
+      borderWidth="1px"
+    >
+      <Box
         pb={3}
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
@@ -60,7 +64,7 @@ export default function MyChats({fetchAgain}) {
         alignItems="center"
       >
         My Chats
-        <GroupChatModel> 
+        <GroupChatModel>
           <Button
             d="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
@@ -80,11 +84,13 @@ export default function MyChats({fetchAgain}) {
         borderRadius="lg"
         overflowY="hidden"
       >
-        {/* {chats ? (
+        {chats.length > 0 ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box
-                onClick={() => setSelectedChat(chat)}
+                // onClick={() => setSelectedChat({ ...chat })}
+              onClick={dispatch(setSelectedChat({payload:chat}))}
+
                 cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                 color={selectedChat === chat ? "white" : "black"}
@@ -111,8 +117,8 @@ export default function MyChats({fetchAgain}) {
           </Stack>
         ) : (
           <ChatLoading />
-        )} */}
+        )}
       </Box>
     </Box>
-  )
+  );
 }
